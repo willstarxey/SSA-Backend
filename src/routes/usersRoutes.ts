@@ -10,6 +10,8 @@ class UsersRoutes{
 
     config() : void {
         this.router.get('', usersController.index);
+        this.router.get('/pagos/:id', usersController.userDetails);
+        this.router.get('/list', usersController.users);
         this.router.post('/login', usersController.login);
         this.router.get('/:id', usersController.view);
         this.router.post('', usersController.create);

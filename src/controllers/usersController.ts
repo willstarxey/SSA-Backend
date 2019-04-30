@@ -9,7 +9,6 @@ class UsersController {
         const users = await pool.query('SELECT * FROM USERS WHERE puesto IS NULL OR puesto = \'\'');
         const personal = await pool.query('SELECT * FROM USERS WHERE puesto <> NULL OR puesto <> \'\'');
         res.json([users,personal]);
-        
     }
 
     public async create(req : Request, res : Response) : Promise<void>{
@@ -47,13 +46,29 @@ class UsersController {
         if(user.length > 0){
             const userData = {
                 id: id,
+                rol: user[0].rol,
                 accessToken: accessToken,
                 expiresIn: expiresIn
             };
             return res.json({userData: userData});
         }
-        res.status(409).json({text: "Usuario no registrado"});
+        res.status(409).json({message: "Usuario no registrado"});
     }
+
+    public async userDetails(req : Request, res : Response) : Promise<any>{
+        const { id } = req.params;
+        const user = await pool.query('SELECT * FROM PAGOS WHERE Users_id = ?', [id]);
+        if(user.length > 0){
+            return res.json(user);
+        }
+        res.status(409).json({text: "Sin datos encontrados"});
+    }
+
+    public async users (req : Request, res : Response) : Promise<any>{
+        const users = await pool.query('SELECT * FROM USERS');
+        res.json(users);
+    }
+
 }
 
 export const usersController = new UsersController();  
