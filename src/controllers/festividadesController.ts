@@ -27,7 +27,7 @@ class FestividadesController {
     public async view(req : Request, res : Response) : Promise<any>{
         const { id } = req.params;
         const festividad = await pool.query('SELECT * FROM FESTIVIDADES WHERE id = ?', [id]);
-        if(festividad.length > 0){
+        if(festividad.isResolved.length > 0){
             return res.json(festividad);
         }
         res.status(404).json({text: "Festividad no encontrado"});

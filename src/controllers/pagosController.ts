@@ -27,7 +27,7 @@ class PagosController {
     public async view(req : Request, res : Response) : Promise<any>{
         const { id } = req.params;
         const Pago = await pool.query('SELECT * FROM PAGOS WHERE id = ?', [id]);
-        if(Pago.length > 0){
+        if(Pago.isResolved.length > 0){
             return res.json(Pago);
         }
         res.status(404).json({text: "Pago no encontrado"});

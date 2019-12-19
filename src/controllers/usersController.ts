@@ -32,7 +32,7 @@ class UsersController {
     public async view(req : Request, res : Response) : Promise<any>{
         const { id } = req.params;
         const user = await pool.query('SELECT * FROM USERS WHERE id = ?', [id]);
-        if(user.length > 0){
+        if(user.isResolved.length > 0){
             return res.json(user);
         }
         res.status(409).json({text: "Usuario no encontrado"});
@@ -44,7 +44,7 @@ class UsersController {
         const expiresIn = 24 * 60 * 60;
         const accessToken = jwt.sign({ id: id }, SECRET_KEY, { expiresIn: expiresIn });
         const user = await pool.query('SELECT * FROM USERS WHERE id = ? AND password = ?', [id,password]);
-        if(user.length > 0){
+        if(user.isResolved.length > 0){
             const userData = {
                 id: id,
                 accessToken: accessToken,

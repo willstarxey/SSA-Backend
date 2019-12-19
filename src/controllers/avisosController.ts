@@ -27,7 +27,7 @@ class AvisosController {
     public async view(req : Request, res : Response) : Promise<any>{
         const { id } = req.params;
         const aviso = await pool.query('SELECT * FROM AVISOS WHERE id = ?', [id]);
-        if(aviso.length > 0){
+        if(aviso.isResolved.length > 0){
             return res.json(aviso);
         }
         res.status(404).json({text: "Aviso no encontrado"});

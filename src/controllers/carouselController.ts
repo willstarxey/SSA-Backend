@@ -27,7 +27,7 @@ class CarouselController {
     public async view(req : Request, res : Response) : Promise<any>{
         const { id } = req.params;
         const carousel = await pool.query('SELECT * FROM CAROUSEL WHERE id = ?', [id]);
-        if(carousel.length > 0){
+        if(carousel.isResolved.length > 0){
             return res.json(carousel);
         }
         res.status(404).json({text: "Carousel no encontrado"});
